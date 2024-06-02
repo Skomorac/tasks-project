@@ -18,7 +18,6 @@ const Login = () => {
           password,
         }
       );
-      console.log("Login successful", response.data);
       // Save the token to local storage
       localStorage.setItem("token", response.data.token);
       // Redirect to tasks page or dashboard

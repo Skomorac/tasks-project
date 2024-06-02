@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Container, Row, Col, ListGroup, Form, Button } from "react-bootstrap";
 import axios from "axios";
-import { FaTrashAlt } from "react-icons/fa";
+import { FaTrashAlt, FaEdit } from "react-icons/fa";
 import "../styles/Dashboard.css";
 
 const Dashboard = () => {
@@ -12,6 +12,8 @@ const Dashboard = () => {
   const [username, setUsername] = useState("");
   const [tasks, setTasks] = useState([]);
   const [newTaskDescription, setNewTaskDescription] = useState("");
+  const [editingTaskId, setEditingTaskId] = useState(null);
+  const [editingTaskDescription, setEditingTaskDescription] = useState("");
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
@@ -81,6 +83,65 @@ const Dashboard = () => {
       });
   };
 
+  const handleToggleTask = (taskId, isActive) => {
+    const token = localStorage.getItem("token");
+
+    axios
+      .put(
+        `${backendUrl}/task/tasks/${taskId}`,
+        { is_active: !isActive },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((response) => {
+        setTasks(
+          tasks.map((task) =>
+            task.id === taskId ? { ...task, is_active: !isActive } : task
+          )
+        );
+      })
+      .catch((error) => {
+        console.error("Error toggling task", error);
+      });
+  };
+
+  const handleEditTask = (taskId) => {
+    setEditingTaskId(taskId);
+    const task = tasks.find((task) => task.id === taskId);
+    if (task) {
+      setEditingTaskDescription(task.description);
+    }
+  };
+
+  const handleSaveTask = (event, taskId) => {
+    event.preventDefault();
+    const token = localStorage.getItem("token");
+
+    axios
+      .put(
+        `${backendUrl}/task/tasks/${taskId}`,
+        { description: editingTaskDescription },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((response) => {
+        setTasks(
+          tasks.map((task) =>
+            task.id === taskId
+              ? { ...task, description: editingTaskDescription }
+              : task
+          )
+        );
+        setEditingTaskId(null);
+        setEditingTaskDescription("");
+      })
+      .catch((error) => {
+        console.error("Error saving task", error);
+      });
+  };
+
   return (
     <Container className="main-container-dashboard">
       <h1>Welcome {username}</h1>
@@ -106,14 +167,51 @@ const Dashboard = () => {
             {tasks.map((task) => (
               <ListGroup.Item
                 key={task.id}
-                className="d-flex justify-content-between align-items-center"
+                className={`d-flex justify-content-between align-items-center ${
+                  !task.is_active ? "completed-task" : ""
+                }`}
               >
-                <div>{task.description}</div>
-                <FaTrashAlt
-                  className="delete-icon"
-                  onClick={() => handleDeleteTask(task.id)}
-                  style={{ cursor: "pointer", color: "red" }}
-                />
+                <div>
+                  <input
+                    type="checkbox"
+                    checked={!task.is_active}
+                    onChange={() => handleToggleTask(task.id, task.is_active)}
+                  />
+                  {editingTaskId === task.id ? (
+                    <Form onSubmit={(e) => handleSaveTask(e, task.id)}>
+                      <Form.Control
+                        type="text"
+                        value={editingTaskDescription}
+                        onChange={(e) =>
+                          setEditingTaskDescription(e.target.value)
+                        }
+                      />
+                      <Button variant="success" type="submit">
+                        Save
+                      </Button>
+                    </Form>
+                  ) : (
+                    <span className={task.is_active ? "" : "line-through"}>
+                      {task.description}
+                    </span>
+                  )}
+                </div>
+                <div>
+                  <FaEdit
+                    className="edit-icon"
+                    onClick={() => handleEditTask(task.id)}
+                    style={{
+                      cursor: "pointer",
+                      color: "blue",
+                      marginRight: "10px",
+                    }}
+                  />
+                  <FaTrashAlt
+                    className="delete-icon"
+                    onClick={() => handleDeleteTask(task.id)}
+                    style={{ cursor: "pointer", color: "red" }}
+                  />
+                </div>
               </ListGroup.Item>
             ))}
           </ListGroup>

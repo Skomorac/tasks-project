@@ -19,9 +19,9 @@
   color: #6c757d;
 }
 
-.delete-icon {
+.delete-icon,
+.edit-icon {
   cursor: pointer;
-  color: red;
 }
 
 @media (max-width: 768px) {
@@ -32,4 +32,8 @@
 
 form {
   margin-bottom: 20px;
+}
+
+.line-through {
+  text-decoration: line-through;
 }
