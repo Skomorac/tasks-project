@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Container, Row, Col, ListGroup, Form, Button } from "react-bootstrap";
 import axios from "axios";
+import { FaTrashAlt } from "react-icons/fa";
 import "../styles/Dashboard.css";
 
 const Dashboard = () => {
@@ -35,7 +36,7 @@ const Dashboard = () => {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
-          setTasks(response.data.map((task) => task.description)); // Map to descriptions
+          setTasks(response.data);
         })
         .catch((error) => {
           console.error("Error fetching tasks", error);
@@ -57,11 +58,26 @@ const Dashboard = () => {
         }
       )
       .then((response) => {
-        setTasks([...tasks, response.data.description]);
+        setTasks([...tasks, response.data]);
         setNewTaskDescription(""); // Clear input field
       })
       .catch((error) => {
         console.error("Error adding task", error);
+      });
+  };
+
+  const handleDeleteTask = (taskId) => {
+    const token = localStorage.getItem("token");
+
+    axios
+      .delete(`${backendUrl}/task/tasks/${taskId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(() => {
+        setTasks(tasks.filter((task) => task.id !== taskId));
+      })
+      .catch((error) => {
+        console.error("Error deleting task", error);
       });
   };
 
@@ -87,9 +103,17 @@ const Dashboard = () => {
         <Col md={8} className="right-box">
           <h2>{t("all_tasks")}</h2>
           <ListGroup>
-            {tasks.map((description, index) => (
-              <ListGroup.Item key={index}>
-                <div>{description}</div>
+            {tasks.map((task) => (
+              <ListGroup.Item
+                key={task.id}
+                className="d-flex justify-content-between align-items-center"
+              >
+                <div>{task.description}</div>
+                <FaTrashAlt
+                  className="delete-icon"
+                  onClick={() => handleDeleteTask(task.id)}
+                  style={{ cursor: "pointer", color: "red" }}
+                />
               </ListGroup.Item>
             ))}
           </ListGroup>

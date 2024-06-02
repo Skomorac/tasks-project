@@ -19,6 +19,11 @@
   color: #6c757d;
 }
 
+.delete-icon {
+  cursor: pointer;
+  color: red;
+}
+
 @media (max-width: 768px) {
   .left-box {
     margin-bottom: 20px;
