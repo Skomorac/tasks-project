@@ -1,3 +1,4 @@
+/* Dashboard.css */
 .main-container-dashboard {
   padding: 20px;
   background-color: lightsalmon;
@@ -22,4 +23,8 @@
   .left-box {
     margin-bottom: 20px;
   }
+}
+
+form {
+  margin-bottom: 20px;
 }
