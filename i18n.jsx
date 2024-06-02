@@ -16,29 +16,28 @@ i18n
     resources: {
       en: {
         translation: {
-          RemindME: "RemindME",
           welcome: "Welcome to the RemindME App",
-          dashboard: "Welcome to your Dashboard",
-          home: "Home",
           login: "Login",
           signup: "Sign Up",
           tasks: "Tasks",
+          home: "Home",
+          dashboard: "Dashboard",
           language: "Language",
-          // Add other translations here
+          logout: "Logout",
+          RemindME: "RemindME",
         },
       },
       bs: {
         translation: {
-          RemindME: "PodsjetiME",
           welcome: "Dobrodošli u aplikaciju PodsjetiME",
-          dashboard: "Dobro došli na Glavnu stranicu",
-          home: "Početna stranica",
           login: "Prijava",
           signup: "Registracija",
           tasks: "Zadaci",
+          home: "Početna",
+          dashboard: "Kontrolna tabla",
           language: "Jezik",
-
-          // Add other translations here
+          logout: "Odjava",
+          RemindME: "PodsjetiME",
         },
       },
     },
