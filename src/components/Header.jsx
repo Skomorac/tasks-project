@@ -22,9 +22,6 @@ const Header = () => {
             <Nav.Link as={Link} to="/">
               {i18n.t("home")}
             </Nav.Link>
-            <Nav.Link as={Link} to="/tasks">
-              {i18n.t("tasks")}
-            </Nav.Link>
             <Nav.Link as={Link} to="/login">
               {i18n.t("login")}
             </Nav.Link>

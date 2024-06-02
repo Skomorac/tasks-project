@@ -18,6 +18,7 @@ i18n
         translation: {
           RemindME: "RemindME",
           welcome: "Welcome to the RemindME App",
+          dashboard: "Welcome to your Dashboard",
           home: "Home",
           login: "Login",
           signup: "Sign Up",
@@ -30,6 +31,7 @@ i18n
         translation: {
           RemindME: "PodsjetiME",
           welcome: "Dobrodošli u aplikaciju PodsjetiME",
+          dashboard: "Dobro došli na Glavnu stranicu",
           home: "Početna stranica",
           login: "Prijava",
           signup: "Registracija",
