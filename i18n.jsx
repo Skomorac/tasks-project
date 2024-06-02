@@ -29,6 +29,7 @@ i18n
           add_task: "Add Task",
           task_description: "Enter task description",
           all_tasks: "All Tasks to do:",
+          number_of_tasks: "number of active tasks is:",
         },
       },
       bs: {
@@ -46,6 +47,7 @@ i18n
           add_task: "Dodaj zadatak",
           task_description: "Unesi opis zadatka",
           all_tasks: "Sve obaveze za uraditi:",
+          number_of_tasks: "broj aktivnih zadataka je:",
         },
       },
     },

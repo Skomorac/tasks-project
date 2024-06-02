@@ -142,9 +142,13 @@ const Dashboard = () => {
       });
   };
 
+  const activeTaskCount = tasks.filter((task) => task.is_active).length;
+
   return (
     <Container className="main-container-dashboard">
-      <h1>Welcome {username}</h1>
+      <h1>
+        Welcome {username}, {t("number_of_tasks")} {activeTaskCount}
+      </h1>
       <Row>
         <Col md={4} className="left-box">
           <Form onSubmit={handleAddTask}>
