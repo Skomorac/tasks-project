@@ -5,6 +5,10 @@
   margin-top: 50px;
 }
 
+.main-container-dashboard h1 {
+  text-align: center;
+}
+
 .left-box,
 .right-box {
   padding: 20px;
@@ -12,6 +16,52 @@
   border: 1px solid #dee2e6;
   border-radius: 4px;
   margin-bottom: 20px;
+}
+
+.right-box h2 {
+  text-align: center;
+}
+
+.edit-delete-container {
+  display: flex;
+  flex-direction: row;
+  padding-left: 2rem;
+}
+
+.edit-delete-container .edit-icon,
+.edit-delete-container .delete-icon {
+  font-size: 1.5em; /* Adjust the size as needed */
+}
+
+.edit-delete-container .edit-icon {
+  color: blue;
+}
+
+.edit-delete-container .delete-icon {
+  color: red;
+  margin-left: 1rem;
+}
+
+.checkbox-task-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.checkbox-container {
+  display: flex;
+  justify-content: center;
+}
+
+.checkbox-container input[type="checkbox"] {
+  transform: scale(1.5); /* Adjust the scale factor as needed */
+  -webkit-transform: scale(1.5); /* For Safari */
+  -moz-transform: scale(1.5); /* For Firefox */
+  -ms-transform: scale(1.5); /* For Internet Explorer */
+  -o-transform: scale(1.5); /* For older versions of Opera */
+}
+
+.task-text {
+  margin-left: 2rem;
 }
 
 .completed-task {

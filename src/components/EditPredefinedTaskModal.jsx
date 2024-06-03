@@ -1,6 +1,7 @@
 import React from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
+import PropTypes from "prop-types";
 
 const EditPredefinedTaskModal = ({
   show,
@@ -12,13 +13,19 @@ const EditPredefinedTaskModal = ({
 }) => {
   const { t } = useTranslation();
 
+  // Prevent default form submission
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    handleSave();
+  };
+
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{t("edit_predefined_task")}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        <Form onSubmit={handleFormSubmit}>
           <Form.Group controlId="formTaskDescription">
             <Form.Label>{t("task_description")}</Form.Label>
             <Form.Control
@@ -42,6 +49,15 @@ const EditPredefinedTaskModal = ({
       </Modal.Footer>
     </Modal>
   );
+};
+
+EditPredefinedTaskModal.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  taskDescription: PropTypes.string.isRequired,
+  setTaskDescription: PropTypes.func.isRequired,
+  handleSave: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
 };
 
 export default EditPredefinedTaskModal;

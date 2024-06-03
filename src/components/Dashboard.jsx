@@ -11,7 +11,7 @@ import {
   Dropdown,
 } from "react-bootstrap";
 import axios from "axios";
-import { FaTrashAlt, FaEdit } from "react-icons/fa";
+import { FaTrashAlt, FaEdit, FaArrowDown } from "react-icons/fa";
 import "../styles/Dashboard.css";
 import EditPredefinedTaskModal from "./EditPredefinedTaskModal";
 
@@ -337,7 +337,12 @@ const Dashboard = () => {
           </Form.Group>
         </Col>
         <Col md={8} className="right-box">
-          <h2>{t("all_tasks")}</h2>
+          <h2>
+            <FaArrowDown style={{ marginRight: "10px" }} />
+            {t("all_tasks")}
+            <FaArrowDown style={{ marginLeft: "10px" }} />
+          </h2>
+
           <ListGroup>
             {tasks.map((task) => (
               <ListGroup.Item
@@ -346,12 +351,14 @@ const Dashboard = () => {
                   !task.is_active ? "completed-task" : ""
                 }`}
               >
-                <div>
-                  <input
-                    type="checkbox"
-                    checked={!task.is_active}
-                    onChange={() => handleToggleTask(task.id, task.is_active)}
-                  />
+                <div className="checkbox-task-container">
+                  <div className="checkbox-container">
+                    <input
+                      type="checkbox"
+                      checked={!task.is_active}
+                      onChange={() => handleToggleTask(task.id, task.is_active)}
+                    />
+                  </div>
                   {editingTaskId === task.id ? (
                     <Form onSubmit={(e) => handleSaveTask(e, task.id)}>
                       <Form.Control
@@ -366,12 +373,16 @@ const Dashboard = () => {
                       </Button>
                     </Form>
                   ) : (
-                    <span className={task.is_active ? "" : "line-through"}>
+                    <span
+                      className={`task-text ${
+                        task.is_active ? "" : "line-through"
+                      }`}
+                    >
                       {task.description}
                     </span>
                   )}
                 </div>
-                <div>
+                <div className="edit-delete-container">
                   <FaEdit
                     className="edit-icon"
                     onClick={() => handleEditTask(task.id)}
