@@ -30,6 +30,8 @@ i18n
           task_description: "Enter task description",
           all_tasks: "All Tasks to do:",
           number_of_tasks: "number of active tasks is:",
+          select_predefined_task: "Select a predefined task",
+          add_and_save_task: "Add and Save Task",
         },
       },
       bs: {
@@ -48,6 +50,8 @@ i18n
           task_description: "Unesi opis zadatka",
           all_tasks: "Sve obaveze za uraditi:",
           number_of_tasks: "broj aktivnih zadataka je:",
+          select_predefined_task: "Odaberi unaprijed definisan zadatak",
+          add_and_save_task: "Dodaj i Sačuvaj Zadatak",
         },
       },
     },

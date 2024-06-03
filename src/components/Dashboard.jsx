@@ -15,6 +15,7 @@ const Dashboard = () => {
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [editingTaskDescription, setEditingTaskDescription] = useState("");
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const [predefinedTasks, setPredefinedTasks] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -42,6 +43,17 @@ const Dashboard = () => {
         })
         .catch((error) => {
           console.error("Error fetching tasks", error);
+        });
+
+      axios
+        .get(`${backendUrl}/task/predefined-tasks`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          setPredefinedTasks(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching predefined tasks", error);
         });
     }
   }, [navigate, backendUrl]);
@@ -142,7 +154,49 @@ const Dashboard = () => {
       });
   };
 
+  const handleAddPredefinedTask = (description) => {
+    const token = localStorage.getItem("token");
+
+    axios
+      .post(
+        `${backendUrl}/task/tasks`,
+        { description },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((response) => {
+        setTasks([...tasks, response.data]);
+      })
+      .catch((error) => {
+        console.error("Error adding predefined task", error);
+      });
+  };
+
   const activeTaskCount = tasks.filter((task) => task.is_active).length;
+
+  const handleAddAndSaveTask = (event) => {
+    event.preventDefault();
+    const token = localStorage.getItem("token");
+    if (!newTaskDescription) return;
+
+    axios
+      .post(
+        `${backendUrl}/task/add-predefined-task`,
+        { description: newTaskDescription },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((response) => {
+        setTasks([...tasks, response.data.task]);
+        setPredefinedTasks([...predefinedTasks, response.data.predefined_task]);
+        setNewTaskDescription(""); // Clear input field
+      })
+      .catch((error) => {
+        console.error("Error adding and saving task", error);
+      });
+  };
 
   return (
     <Container className="main-container-dashboard">
@@ -163,7 +217,27 @@ const Dashboard = () => {
             <Button variant="primary" type="submit">
               {t("add_task")}
             </Button>
+            <Button
+              variant="secondary"
+              onClick={handleAddAndSaveTask}
+              style={{ marginLeft: "10px" }}
+            >
+              {t("add_and_save_task")}
+            </Button>
           </Form>
+          <Form.Group controlId="formPredefinedTask">
+            <Form.Control
+              as="select"
+              onChange={(e) => handleAddPredefinedTask(e.target.value)}
+            >
+              <option value="">{t("select_predefined_task")}</option>
+              {predefinedTasks.map((task) => (
+                <option key={task.id} value={task.description}>
+                  {task.description}
+                </option>
+              ))}
+            </Form.Control>
+          </Form.Group>
         </Col>
         <Col md={8} className="right-box">
           <h2>{t("all_tasks")}</h2>
