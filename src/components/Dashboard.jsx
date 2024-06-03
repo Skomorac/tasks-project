@@ -295,50 +295,57 @@ const Dashboard = () => {
                 onChange={(e) => setNewTaskDescription(e.target.value)}
               />
             </Form.Group>
-            <Button variant="primary" type="submit">
-              {t("add_task")}
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={handleAddAndSaveTask}
-              style={{ marginLeft: "10px" }}
-            >
-              {t("add_and_save_task")}
-            </Button>
+            <div className="add-save-task-button-container">
+              <Button variant="primary" type="submit">
+                {t("add_task")}
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={handleAddAndSaveTask}
+                style={{ marginLeft: "10px" }}
+              >
+                {t("add_and_save_task")}
+              </Button>
+            </div>
           </Form>
           <Form.Group controlId="formPredefinedTask">
-            <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                {t("select_predefined_task")}
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                {predefinedTasks.map((task) => (
-                  <Dropdown.Item key={task.id}>
-                    <div className="d-flex justify-content-between align-items-center">
-                      <span
-                        onClick={() =>
-                          handleAddPredefinedTask(task.description)
-                        }
-                      >
-                        {task.description}
-                      </span>
-                      <FaEdit
-                        className="edit-icon"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleEditPredefinedTask(task.id);
-                        }}
-                        style={{
-                          cursor: "pointer",
-                          color: "blue",
-                          marginRight: "10px",
-                        }}
-                      />
-                    </div>
-                  </Dropdown.Item>
-                ))}
-              </Dropdown.Menu>
-            </Dropdown>
+            <div>
+              <Dropdown className="dropdown-styling-container">
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                  {t("select_predefined_task")}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  {predefinedTasks.map((task) => (
+                    <Dropdown.Item key={task.id}>
+                      <div className="d-flex justify-content-left align-items-center">
+                        <div className="edit-icon-dropdown-container">
+                          <FaEdit
+                            className="edit-icon"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleEditPredefinedTask(task.id);
+                            }}
+                            style={{
+                              cursor: "pointer",
+                              color: "blue",
+                              marginRight: "10px",
+                            }}
+                          />
+                        </div>
+                        <span></span>
+                        <span
+                          onClick={() =>
+                            handleAddPredefinedTask(task.description)
+                          }
+                        >
+                          {task.description}
+                        </span>
+                      </div>
+                    </Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
           </Form.Group>
         </Col>
         <Col md={8} className="right-box">

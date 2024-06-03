@@ -79,9 +79,35 @@
   cursor: pointer;
 }
 
+.add-save-task-button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.dropdown-styling-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 4rem;
+}
+
+.dropdown-menu .d-flex {
+  white-space: wrap; /* Prevent text from wrapping */
+}
+
+.edit-icon-dropdown-container {
+  margin-right: 2rem;
+  font-size: x-large;
+}
+
 @media (max-width: 768px) {
-  .left-box {
-    margin-bottom: 20px;
+  .dropdown-menu {
+    max-width: 100vw; /* Ensure the dropdown doesn't exceed viewport width */
+    overflow-x: auto; /* Add horizontal scroll if needed */
+  }
+
+  .dropdown-menu .d-flex {
+    white-space: wrap; /* Prevent text from wrapping */
   }
 }
 
