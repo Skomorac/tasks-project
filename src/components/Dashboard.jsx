@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Container, Row, Col, ListGroup, Form, Button } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  ListGroup,
+  Form,
+  Button,
+  Dropdown,
+} from "react-bootstrap";
 import axios from "axios";
 import { FaTrashAlt, FaEdit } from "react-icons/fa";
 import "../styles/Dashboard.css";
+import EditPredefinedTaskModal from "./EditPredefinedTaskModal";
 
 const Dashboard = () => {
   const { t } = useTranslation();
@@ -16,6 +25,13 @@ const Dashboard = () => {
   const [editingTaskDescription, setEditingTaskDescription] = useState("");
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [predefinedTasks, setPredefinedTasks] = useState([]);
+  const [editingPredefinedTaskId, setEditingPredefinedTaskId] = useState(null);
+  const [
+    editingPredefinedTaskDescription,
+    setEditingPredefinedTaskDescription,
+  ] = useState("");
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [currentPredefinedTaskId, setCurrentPredefinedTaskId] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -80,6 +96,29 @@ const Dashboard = () => {
       });
   };
 
+  const handleAddAndSaveTask = (event) => {
+    event.preventDefault();
+    const token = localStorage.getItem("token");
+    if (!newTaskDescription) return;
+
+    axios
+      .post(
+        `${backendUrl}/task/add-predefined-task`,
+        { description: newTaskDescription },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((response) => {
+        setTasks([...tasks, response.data.task]);
+        setPredefinedTasks([...predefinedTasks, response.data.predefined_task]);
+        setNewTaskDescription(""); // Clear input field
+      })
+      .catch((error) => {
+        console.error("Error adding and saving task", error);
+      });
+  };
+
   const handleDeleteTask = (taskId) => {
     const token = localStorage.getItem("token");
 
@@ -106,7 +145,7 @@ const Dashboard = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       )
-      .then((response) => {
+      .then(() => {
         setTasks(
           tasks.map((task) =>
             task.id === taskId ? { ...task, is_active: !isActive } : task
@@ -138,7 +177,7 @@ const Dashboard = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       )
-      .then((response) => {
+      .then(() => {
         setTasks(
           tasks.map((task) =>
             task.id === taskId
@@ -151,6 +190,66 @@ const Dashboard = () => {
       })
       .catch((error) => {
         console.error("Error saving task", error);
+      });
+  };
+
+  const handleDeletePredefinedTask = () => {
+    const token = localStorage.getItem("token");
+    axios
+      .delete(
+        `${backendUrl}/task/predefined-tasks/${currentPredefinedTaskId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then(() => {
+        setPredefinedTasks(
+          predefinedTasks.filter((task) => task.id !== currentPredefinedTaskId)
+        );
+        handleCloseEditModal();
+      })
+      .catch((error) => {
+        console.error("Error deleting predefined task", error);
+      });
+  };
+
+  const handleEditPredefinedTask = (taskId) => {
+    setCurrentPredefinedTaskId(taskId);
+    const task = predefinedTasks.find((task) => task.id === taskId);
+    if (task) {
+      setEditingPredefinedTaskDescription(task.description);
+      setShowEditModal(true);
+    }
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+    setCurrentPredefinedTaskId(null);
+    setEditingPredefinedTaskDescription("");
+  };
+
+  const handleSavePredefinedTask = () => {
+    const token = localStorage.getItem("token");
+    axios
+      .put(
+        `${backendUrl}/task/predefined-tasks/${currentPredefinedTaskId}`,
+        { description: editingPredefinedTaskDescription },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then(() => {
+        setPredefinedTasks(
+          predefinedTasks.map((task) =>
+            task.id === currentPredefinedTaskId
+              ? { ...task, description: editingPredefinedTaskDescription }
+              : task
+          )
+        );
+        handleCloseEditModal();
+      })
+      .catch((error) => {
+        console.error("Error saving predefined task", error);
       });
   };
 
@@ -174,29 +273,6 @@ const Dashboard = () => {
   };
 
   const activeTaskCount = tasks.filter((task) => task.is_active).length;
-
-  const handleAddAndSaveTask = (event) => {
-    event.preventDefault();
-    const token = localStorage.getItem("token");
-    if (!newTaskDescription) return;
-
-    axios
-      .post(
-        `${backendUrl}/task/add-predefined-task`,
-        { description: newTaskDescription },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
-      .then((response) => {
-        setTasks([...tasks, response.data.task]);
-        setPredefinedTasks([...predefinedTasks, response.data.predefined_task]);
-        setNewTaskDescription(""); // Clear input field
-      })
-      .catch((error) => {
-        console.error("Error adding and saving task", error);
-      });
-  };
 
   return (
     <Container className="main-container-dashboard">
@@ -226,17 +302,38 @@ const Dashboard = () => {
             </Button>
           </Form>
           <Form.Group controlId="formPredefinedTask">
-            <Form.Control
-              as="select"
-              onChange={(e) => handleAddPredefinedTask(e.target.value)}
-            >
-              <option value="">{t("select_predefined_task")}</option>
-              {predefinedTasks.map((task) => (
-                <option key={task.id} value={task.description}>
-                  {task.description}
-                </option>
-              ))}
-            </Form.Control>
+            <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+                {t("select_predefined_task")}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {predefinedTasks.map((task) => (
+                  <Dropdown.Item key={task.id}>
+                    <div className="d-flex justify-content-between align-items-center">
+                      <span
+                        onClick={() =>
+                          handleAddPredefinedTask(task.description)
+                        }
+                      >
+                        {task.description}
+                      </span>
+                      <FaEdit
+                        className="edit-icon"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEditPredefinedTask(task.id);
+                        }}
+                        style={{
+                          cursor: "pointer",
+                          color: "blue",
+                          marginRight: "10px",
+                        }}
+                      />
+                    </div>
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
           </Form.Group>
         </Col>
         <Col md={8} className="right-box">
@@ -295,6 +392,14 @@ const Dashboard = () => {
           </ListGroup>
         </Col>
       </Row>
+      <EditPredefinedTaskModal
+        show={showEditModal}
+        handleClose={handleCloseEditModal}
+        taskDescription={editingPredefinedTaskDescription}
+        setTaskDescription={setEditingPredefinedTaskDescription}
+        handleSave={handleSavePredefinedTask}
+        handleDelete={handleDeletePredefinedTask}
+      />
     </Container>
   );
 };
