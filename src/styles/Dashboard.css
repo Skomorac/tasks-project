@@ -1,7 +1,7 @@
 /* Dashboard.css */
 .main-container-dashboard {
   padding: 20px;
-  background-color: lightsalmon;
+  background-color: rgb(122, 202, 255);
   margin-top: 50px;
 }
 
@@ -45,6 +45,11 @@
 .checkbox-task-container {
   display: flex;
   flex-direction: row;
+}
+
+.checkbox-task-container button {
+  margin-left: 5rem;
+  margin-top: 1rem;
 }
 
 .checkbox-container {
