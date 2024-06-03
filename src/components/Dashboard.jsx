@@ -13,7 +13,7 @@ import {
 import axios from "axios";
 import { FaTrashAlt, FaEdit, FaArrowDown } from "react-icons/fa";
 import "../styles/Dashboard.css";
-import EditPredefinedTaskModal from "./EditPredefinedTaskModal";
+import EditTaskModal from "./EditTaskModal";
 
 const Dashboard = () => {
   const { t } = useTranslation();
@@ -21,17 +21,11 @@ const Dashboard = () => {
   const [username, setUsername] = useState("");
   const [tasks, setTasks] = useState([]);
   const [newTaskDescription, setNewTaskDescription] = useState("");
-  const [editingTaskId, setEditingTaskId] = useState(null);
-  const [editingTaskDescription, setEditingTaskDescription] = useState("");
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [predefinedTasks, setPredefinedTasks] = useState([]);
-  const [editingPredefinedTaskId, setEditingPredefinedTaskId] = useState(null);
-  const [
-    editingPredefinedTaskDescription,
-    setEditingPredefinedTaskDescription,
-  ] = useState("");
+  const [currentTask, setCurrentTask] = useState({ id: null, description: "" });
   const [showEditModal, setShowEditModal] = useState(false);
-  const [currentPredefinedTaskId, setCurrentPredefinedTaskId] = useState(null);
+  const [isEditingPredefined, setIsEditingPredefined] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -119,7 +113,23 @@ const Dashboard = () => {
       });
   };
 
-  const handleDeleteTask = (taskId) => {
+  const handleDeleteTask = () => {
+    const token = localStorage.getItem("token");
+
+    axios
+      .delete(`${backendUrl}/task/tasks/${currentTask.id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(() => {
+        setTasks(tasks.filter((task) => task.id !== currentTask.id));
+        handleCloseEditModal();
+      })
+      .catch((error) => {
+        console.error("Error deleting task", error);
+      });
+  };
+
+  const handleDeleteTaskById = (taskId) => {
     const token = localStorage.getItem("token");
 
     axios
@@ -158,21 +168,21 @@ const Dashboard = () => {
   };
 
   const handleEditTask = (taskId) => {
-    setEditingTaskId(taskId);
     const task = tasks.find((task) => task.id === taskId);
     if (task) {
-      setEditingTaskDescription(task.description);
+      setCurrentTask({ id: taskId, description: task.description });
+      setIsEditingPredefined(false);
+      setShowEditModal(true);
     }
   };
 
-  const handleSaveTask = (event, taskId) => {
-    event.preventDefault();
+  const handleSaveTask = () => {
     const token = localStorage.getItem("token");
 
     axios
       .put(
-        `${backendUrl}/task/tasks/${taskId}`,
-        { description: editingTaskDescription },
+        `${backendUrl}/task/tasks/${currentTask.id}`,
+        { description: currentTask.description },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -180,13 +190,12 @@ const Dashboard = () => {
       .then(() => {
         setTasks(
           tasks.map((task) =>
-            task.id === taskId
-              ? { ...task, description: editingTaskDescription }
+            task.id === currentTask.id
+              ? { ...task, description: currentTask.description }
               : task
           )
         );
-        setEditingTaskId(null);
-        setEditingTaskDescription("");
+        handleCloseEditModal();
       })
       .catch((error) => {
         console.error("Error saving task", error);
@@ -196,15 +205,12 @@ const Dashboard = () => {
   const handleDeletePredefinedTask = () => {
     const token = localStorage.getItem("token");
     axios
-      .delete(
-        `${backendUrl}/task/predefined-tasks/${currentPredefinedTaskId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
+      .delete(`${backendUrl}/task/predefined-tasks/${currentTask.id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then(() => {
         setPredefinedTasks(
-          predefinedTasks.filter((task) => task.id !== currentPredefinedTaskId)
+          predefinedTasks.filter((task) => task.id !== currentTask.id)
         );
         handleCloseEditModal();
       })
@@ -214,26 +220,25 @@ const Dashboard = () => {
   };
 
   const handleEditPredefinedTask = (taskId) => {
-    setCurrentPredefinedTaskId(taskId);
     const task = predefinedTasks.find((task) => task.id === taskId);
     if (task) {
-      setEditingPredefinedTaskDescription(task.description);
+      setCurrentTask({ id: taskId, description: task.description });
+      setIsEditingPredefined(true);
       setShowEditModal(true);
     }
   };
 
   const handleCloseEditModal = () => {
     setShowEditModal(false);
-    setCurrentPredefinedTaskId(null);
-    setEditingPredefinedTaskDescription("");
+    setCurrentTask({ id: null, description: "" });
   };
 
   const handleSavePredefinedTask = () => {
     const token = localStorage.getItem("token");
     axios
       .put(
-        `${backendUrl}/task/predefined-tasks/${currentPredefinedTaskId}`,
-        { description: editingPredefinedTaskDescription },
+        `${backendUrl}/task/predefined-tasks/${currentTask.id}`,
+        { description: currentTask.description },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -241,8 +246,8 @@ const Dashboard = () => {
       .then(() => {
         setPredefinedTasks(
           predefinedTasks.map((task) =>
-            task.id === currentPredefinedTaskId
-              ? { ...task, description: editingPredefinedTaskDescription }
+            task.id === currentTask.id
+              ? { ...task, description: currentTask.description }
               : task
           )
         );
@@ -359,28 +364,13 @@ const Dashboard = () => {
                       onChange={() => handleToggleTask(task.id, task.is_active)}
                     />
                   </div>
-                  {editingTaskId === task.id ? (
-                    <Form onSubmit={(e) => handleSaveTask(e, task.id)}>
-                      <Form.Control
-                        type="text"
-                        value={editingTaskDescription}
-                        onChange={(e) =>
-                          setEditingTaskDescription(e.target.value)
-                        }
-                      />
-                      <Button variant="success" type="submit">
-                        Save
-                      </Button>
-                    </Form>
-                  ) : (
-                    <span
-                      className={`task-text ${
-                        task.is_active ? "" : "line-through"
-                      }`}
-                    >
-                      {task.description}
-                    </span>
-                  )}
+                  <span
+                    className={`task-text ${
+                      task.is_active ? "" : "line-through"
+                    }`}
+                  >
+                    {task.description}
+                  </span>
                 </div>
                 <div className="edit-delete-container">
                   <FaEdit
@@ -394,7 +384,7 @@ const Dashboard = () => {
                   />
                   <FaTrashAlt
                     className="delete-icon"
-                    onClick={() => handleDeleteTask(task.id)}
+                    onClick={() => handleDeleteTaskById(task.id)}
                     style={{ cursor: "pointer", color: "red" }}
                   />
                 </div>
@@ -403,13 +393,20 @@ const Dashboard = () => {
           </ListGroup>
         </Col>
       </Row>
-      <EditPredefinedTaskModal
+      <EditTaskModal
         show={showEditModal}
         handleClose={handleCloseEditModal}
-        taskDescription={editingPredefinedTaskDescription}
-        setTaskDescription={setEditingPredefinedTaskDescription}
-        handleSave={handleSavePredefinedTask}
-        handleDelete={handleDeletePredefinedTask}
+        taskDescription={currentTask.description}
+        setTaskDescription={(desc) =>
+          setCurrentTask((prev) => ({ ...prev, description: desc }))
+        }
+        handleSave={
+          isEditingPredefined ? handleSavePredefinedTask : handleSaveTask
+        }
+        handleDelete={
+          isEditingPredefined ? handleDeletePredefinedTask : handleDeleteTask
+        }
+        isPredefined={isEditingPredefined}
       />
     </Container>
   );
