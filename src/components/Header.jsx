@@ -20,7 +20,7 @@ const Header = () => {
   };
 
   return (
-    <Navbar bg="secondary" expand="lg">
+    <Navbar className="container navbar-container" expand="lg">
       <Container>
         {location.pathname === "/dashboard" ? (
           <Navbar.Brand>{i18n.t("RemindME")}</Navbar.Brand>

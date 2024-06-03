@@ -311,7 +311,7 @@ const Dashboard = () => {
           <Form.Group controlId="formPredefinedTask">
             <div>
               <Dropdown className="dropdown-styling-container">
-                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                <Dropdown.Toggle variant="warning" id="dropdown-basic">
                   {t("select_predefined_task")}
                 </Dropdown.Toggle>
                 <Dropdown.Menu>

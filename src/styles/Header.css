@@ -1,4 +1,10 @@
-/* General Navbar Styling */
+.navbar-container {
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  color: #fff;
+  border-radius: 10px;
+  margin: 2rem;
+}
+
 .navbar-nav .nav-link,
 .navbar-nav .btn,
 .navbar-nav .dropdown {

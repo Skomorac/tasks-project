@@ -1,8 +1,9 @@
 /* Dashboard.css */
 .main-container-dashboard {
   padding: 20px;
-  background-color: rgb(122, 202, 255);
+  background: linear-gradient(to right, #6a11cb, #2575fc);
   margin-top: 50px;
+  border-radius: 10px;
 }
 
 .main-container-dashboard h1 {
@@ -14,7 +15,7 @@
   padding: 20px;
   background-color: #f8f9fa;
   border: 1px solid #dee2e6;
-  border-radius: 4px;
+  border-radius: 10px;
   margin-bottom: 20px;
 }
 
