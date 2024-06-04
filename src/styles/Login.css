@@ -1,4 +1,6 @@
-.signup-form-container {
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+.login-container {
   background: linear-gradient(to right, #6a11cb, #2575fc);
   color: #fff;
   border-radius: 10px;
@@ -7,13 +9,12 @@
   font-size: 1.5rem;
 }
 
-.signup-form-container h1 {
+.login-container h1 {
   margin-bottom: 2rem;
 }
 
 .email-input-field,
 .password-input-field,
-.username-input-field,
 .button-submit {
   margin-bottom: 2rem;
 }

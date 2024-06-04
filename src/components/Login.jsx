@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Form, Button, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import "../styles/Login.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -20,6 +21,9 @@ const Login = () => {
       );
       // Save the token to local storage
       localStorage.setItem("token", response.data.token);
+      // Clear email and password state
+      setEmail("");
+      setPassword("");
       // Redirect to tasks page or dashboard
       navigate("/dashboard");
     } catch (error) {
@@ -28,36 +32,41 @@ const Login = () => {
   };
 
   return (
-    <Container>
-      <h1>Login</h1>
-      <Form onSubmit={handleLogin}>
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Enter email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </Form.Group>
+    <div className="login-container">
+      <Container>
+        <h1>Login</h1>
+        <Form onSubmit={handleLogin}>
+          <Form.Group controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              className="email-input-field"
+              type="email"
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoFocus
+            />
+          </Form.Group>
 
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </Form.Group>
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              className="password-input-field"
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </Form.Group>
 
-        <Button variant="primary" type="submit">
-          Login
-        </Button>
-      </Form>
-    </Container>
+          <Button className="button-submit" variant="warning" type="submit">
+            Login
+          </Button>
+        </Form>
+      </Container>
+    </div>
   );
 };
 
