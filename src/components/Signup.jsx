@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Form, Button, Container } from "react-bootstrap";
 import "../styles/Signup.css";
+import { useTranslation } from "react-i18next";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const { t } = useTranslation();
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -29,7 +31,7 @@ const Signup = () => {
   return (
     <div className="signup-form-container">
       <Container>
-        <h1>Sign Up</h1>
+        <h1>{t("signup")}</h1>
         <Form onSubmit={handleSignup}>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
@@ -40,6 +42,7 @@ const Signup = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              autoFocus
             />
           </Form.Group>
 
@@ -56,7 +59,7 @@ const Signup = () => {
           </Form.Group>
 
           <Form.Group controlId="formBasicUsername">
-            <Form.Label>Username</Form.Label>
+            <Form.Label>{t("username")}</Form.Label>
             <Form.Control
               className="username-input-field"
               type="text"
@@ -68,7 +71,7 @@ const Signup = () => {
           </Form.Group>
 
           <Button className="button-submit" variant="warning" type="submit">
-            Sign Up
+            {t("signup")}
           </Button>
         </Form>
       </Container>

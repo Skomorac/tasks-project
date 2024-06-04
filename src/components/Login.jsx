@@ -3,11 +3,13 @@ import axios from "axios";
 import { Form, Button, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../styles/Login.css";
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -34,7 +36,7 @@ const Login = () => {
   return (
     <div className="login-container">
       <Container>
-        <h1>Login</h1>
+        <h1>{t("login")}</h1>
         <Form onSubmit={handleLogin}>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
@@ -62,7 +64,7 @@ const Login = () => {
           </Form.Group>
 
           <Button className="button-submit" variant="warning" type="submit">
-            Login
+            {t("login")}
           </Button>
         </Form>
       </Container>

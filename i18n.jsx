@@ -55,6 +55,7 @@ i18n
           feature_three_description: "Access your tasks on any device.",
           cta_title: "You want to try, just register, it is free!!!",
           sign_up_now: "Sign Up Now",
+          username: "Username",
         },
       },
       bs: {
@@ -98,6 +99,7 @@ i18n
             "Pristupite svojim zadacima na bilo kojem uređaju.",
           cta_title: "Želite da probate, samo se registrujte, besplatno je!!!",
           sign_up_now: "Registrujte se sada",
+          username: "Korisničko ime",
         },
       },
     },
