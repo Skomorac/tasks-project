@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Form, Button, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../styles/Login.css";
 import { useTranslation } from "react-i18next";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -27,9 +28,31 @@ const Login = () => {
       setEmail("");
       setPassword("");
       // Redirect to tasks page or dashboard
-      navigate("/dashboard");
+      Swal.fire({
+        icon: "success",
+        title: t("success"),
+        text: t("login_successful"),
+      }).then(() => {
+        navigate("/dashboard");
+      });
     } catch (error) {
-      console.error("Error logging in", error);
+      if (error.response && error.response.status === 401) {
+        const errorMessage =
+          error.response.data.msg === "Email not found"
+            ? t("email_not_found")
+            : t("incorrect_password");
+        Swal.fire({
+          icon: "error",
+          title: t("error"),
+          text: errorMessage,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: t("error"),
+          text: t("login_error"),
+        });
+      }
     }
   };
 
@@ -39,11 +62,11 @@ const Login = () => {
         <h1>{t("login")}</h1>
         <Form onSubmit={handleLogin}>
           <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
+            <Form.Label>{t("email_address")}</Form.Label>
             <Form.Control
               className="email-input-field"
               type="email"
-              placeholder="Enter email"
+              placeholder={t("enter_email")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -52,11 +75,11 @@ const Login = () => {
           </Form.Group>
 
           <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
+            <Form.Label>{t("password")}</Form.Label>
             <Form.Control
               className="password-input-field"
               type="password"
-              placeholder="Password"
+              placeholder={t("enter_password")}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
