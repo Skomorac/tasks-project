@@ -16,7 +16,7 @@ const EditTaskModal = ({
   const { t } = useTranslation();
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal id="modal-container" show={show} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>
           {t(isPredefined ? "edit_predefined_task" : "edit_task")}
@@ -39,7 +39,7 @@ const EditTaskModal = ({
           </Form.Group>
         </Form>
       </Modal.Body>
-      <Modal.Footer className="modal-footer-buttons-container">
+      <Modal.Footer id="modal-footer-buttons-container">
         <Button variant="danger" onClick={handleDelete}>
           {t("delete_task")}
         </Button>
