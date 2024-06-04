@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Navbar, Nav, NavDropdown, Container, Button } from "react-bootstrap";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -9,6 +9,7 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const token = localStorage.getItem("token");
+  const [expanded, setExpanded] = useState(false); // State to manage navbar collapse
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
@@ -17,10 +18,20 @@ const Header = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/");
+    setExpanded(false); // Collapse the navbar after logout
+  };
+
+  const handleToggle = () => {
+    setExpanded(!expanded); // Toggle the navbar state
   };
 
   return (
-    <Navbar className="container navbar-container" expand="lg">
+    <Navbar
+      className="container navbar-container"
+      expand="lg"
+      expanded={expanded} // Bind state to expanded prop
+      onToggle={handleToggle}
+    >
       <Container>
         {location.pathname === "/dashboard" ? (
           <Navbar.Brand>{i18n.t("RemindME")}</Navbar.Brand>
@@ -29,22 +40,34 @@ const Header = () => {
             {i18n.t("RemindME")}
           </Navbar.Brand>
         )}
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle
+          aria-controls="basic-navbar-nav"
+          onClick={handleToggle}
+        />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            {!token ? (
+            {/* Conditionally render Login/Signup buttons */}
+            {!token && (
               <>
-                <Nav.Link as={Link} to="/login">
-                  {i18n.t("login")}
-                </Nav.Link>
-                <Nav.Link as={Link} to="/signup">
-                  {i18n.t("signup")}
-                </Nav.Link>
+                {location.pathname !== "/login" && (
+                  <Nav.Link
+                    as={Link}
+                    to="/login"
+                    onClick={() => setExpanded(false)}
+                  >
+                    {i18n.t("login")}
+                  </Nav.Link>
+                )}
+                {location.pathname !== "/signup" && (
+                  <Nav.Link
+                    as={Link}
+                    to="/signup"
+                    onClick={() => setExpanded(false)}
+                  >
+                    {i18n.t("signup")}
+                  </Nav.Link>
+                )}
               </>
-            ) : (
-              <Button variant="link" onClick={handleLogout}>
-                {i18n.t("logout")}
-              </Button>
             )}
             <NavDropdown
               title={i18n.t("language")}
@@ -58,6 +81,11 @@ const Header = () => {
                 BS
               </NavDropdown.Item>
             </NavDropdown>
+            {token && (
+              <Button variant="link" onClick={handleLogout}>
+                {i18n.t("logout")}
+              </Button>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
