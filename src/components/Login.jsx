@@ -27,13 +27,16 @@ const Login = () => {
       // Clear email and password state
       setEmail("");
       setPassword("");
-      // Redirect to tasks page or dashboard
+      // Show success message and navigate to dashboard
       Swal.fire({
         icon: "success",
         title: t("success"),
         text: t("login_successful"),
-      }).then(() => {
-        navigate("/dashboard");
+        timer: 1500,
+        showConfirmButton: false,
+        willClose: () => {
+          navigate("/dashboard");
+        },
       });
     } catch (error) {
       if (error.response && error.response.status === 401) {
