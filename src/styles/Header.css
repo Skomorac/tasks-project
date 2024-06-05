@@ -1,0 +1,62 @@
+.navbar-container {
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  color: #fff;
+  border-radius: 10px;
+  margin: 2rem;
+}
+
+.navbar-nav .nav-link,
+.navbar-nav .btn,
+.navbar-nav .dropdown {
+  margin-left: auto;
+  font-size: 1.25rem;
+  color: white;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .btn:hover,
+.navbar-nav .dropdown:hover {
+  color: #ffc107; /* Adjust this color if needed */
+}
+
+/* Dropdown Menu Styling */
+.navbar-nav .dropdown-menu {
+  background-color: #007bff; /* Matching the hero section background color */
+  border: none;
+}
+
+.navbar-nav .dropdown-menu .dropdown-item {
+  color: white;
+  font-size: 1.25rem;
+}
+
+.navbar-nav .dropdown-menu .dropdown-item:hover {
+  background-color: #0056b3; /* Slightly darker shade */
+}
+
+/* Responsive Styling */
+@media (max-width: 992px) {
+  .navbar-nav .dropdown-menu {
+    margin-left: 0;
+  }
+
+  .navbar-nav .nav-link,
+  .navbar-nav .btn,
+  .navbar-nav .dropdown {
+    margin-left: 0;
+    text-align: center;
+    padding: 10px;
+  }
+}
+
+/* CTA Button in Navbar */
+.navbar-nav .cta-button {
+  background-color: #28a745; /* Matching the CTA button color */
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.25rem;
+}
+
+.navbar-nav .cta-button:hover {
+  background-color: #218838;
+}
