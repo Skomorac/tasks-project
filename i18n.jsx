@@ -91,6 +91,14 @@ i18n
             "An error occurred while resetting the password. Please try again.",
           invalid_or_expired_token:
             "Invalid or expired token. Please request a new password reset link.",
+          delete_all_tasks: "Delete All Tasks",
+          are_you_sure: "Are you sure?",
+          irreversible_action: "You won't be able to revert this!",
+          yes_delete_all: "Yes, delete all!",
+          deleted: "Deleted!",
+          all_tasks_deleted: "All your tasks have been deleted.",
+          error_deleting_tasks: "There was an error deleting your tasks.",
+
           // other translations...
         },
       },
@@ -176,6 +184,14 @@ i18n
             "Nevažeći ili istekao token. Molimo zatražite novi link za resetovanje lozinke.",
           reset_password_success:
             "Lozinka je uspješno resetovana, kliknite OK da biste otišli na stranicu za prijavu",
+          delete_all_tasks: "Izbriši Sve Zadate",
+          are_you_sure: "Jeste li sigurni?",
+          irreversible_action: "Ovo nećete moći poništiti!",
+          yes_delete_all: "Da, izbriši sve!",
+          deleted: "Izbrisano!",
+          all_tasks_deleted: "Svi vaši zadaci su izbrisani.",
+          error_deleting_tasks:
+            "Došlo je do greške prilikom brisanja zadataka.",
           // other translations...
         },
       },

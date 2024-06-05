@@ -23,6 +23,11 @@
   text-align: center;
 }
 
+.delete-all-button {
+  display: flex;
+  justify-content: center;
+}
+
 .edit-delete-container {
   display: flex;
   flex-direction: row;

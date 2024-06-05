@@ -14,6 +14,7 @@ import axios from "axios";
 import { FaTrashAlt, FaEdit, FaArrowDown } from "react-icons/fa";
 import "../styles/Dashboard.css";
 import EditTaskModal from "./EditTaskModal";
+import Swal from "sweetalert2";
 
 const Dashboard = () => {
   const { t } = useTranslation();
@@ -142,6 +143,35 @@ const Dashboard = () => {
       .catch((error) => {
         console.error("Error deleting task", error);
       });
+  };
+
+  const handleDeleteAllTasks = () => {
+    Swal.fire({
+      title: t("are_you_sure"),
+      text: t("irreversible_action"),
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: t("yes_delete_all"),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const token = localStorage.getItem("token");
+
+        axios
+          .delete(`${backendUrl}/task/tasks`, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then(() => {
+            setTasks([]);
+            Swal.fire(t("deleted"), t("all_tasks_deleted"), "success");
+          })
+          .catch((error) => {
+            console.error("Error deleting all tasks", error);
+            Swal.fire(t("error"), t("error_deleting_tasks"), "error");
+          });
+      }
+    });
   };
 
   const handleToggleTask = (taskId, isActive) => {
@@ -349,6 +379,15 @@ const Dashboard = () => {
           </Form.Group>
         </Col>
         <Col md={8} className="right-box">
+          <div className="delete-all-button">
+            <Button
+              variant="danger"
+              onClick={handleDeleteAllTasks}
+              style={{ marginBottom: "20px" }}
+            >
+              {t("delete_all_tasks")}
+            </Button>
+          </div>
           <h2>
             <FaArrowDown style={{ marginRight: "10px" }} />
             {t("all_tasks")}
