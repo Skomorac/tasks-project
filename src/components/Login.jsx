@@ -16,12 +16,13 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://skomorac.dev/mafl-api/api/task/login",
+        `${import.meta.env.VITE_BACKEND_URL}/task/login`,
         {
           email,
           password,
         }
       );
+
       // Save the token to local storage
       localStorage.setItem("token", response.data.token);
       // Clear email and password state
@@ -89,9 +90,18 @@ const Login = () => {
             />
           </Form.Group>
 
-          <Button className="button-submit" variant="warning" type="submit">
-            {t("login")}
-          </Button>
+          <div className="login-buttons-container">
+            <Button className="button-submit" variant="warning" type="submit">
+              {t("login")}
+            </Button>
+            <Button
+              className="button-submit"
+              variant="danger"
+              onClick={() => navigate("/forgot-password")}
+            >
+              {t("forgot_password")}
+            </Button>
+          </div>
         </Form>
       </Container>
     </div>

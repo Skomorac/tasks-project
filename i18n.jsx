@@ -78,6 +78,20 @@ i18n
           email_not_found: "Email not found",
           incorrect_password: "Incorrect password",
           login_error: "An error occurred during login. Please try again.",
+          forgot_password: "Forgot Password",
+          send_reset_link: "Send Reset Link",
+          forgot_password_error:
+            "An error occurred while sending the password reset link. Please try again.",
+          reset_password: "Reset Password",
+          reset_password_success:
+            "Password reset successfully done, click OK to go to Login page",
+          new_password: "New Password",
+          enter_new_password: "Enter New Password",
+          reset_password_error:
+            "An error occurred while resetting the password. Please try again.",
+          invalid_or_expired_token:
+            "Invalid or expired token. Please request a new password reset link.",
+          // other translations...
         },
       },
       bs: {
@@ -149,6 +163,20 @@ i18n
           incorrect_password: "Pogrešna lozinka",
           login_error:
             "Došlo je do greške tokom prijave. Molimo pokušajte ponovo.",
+          forgot_password: "Zaboravili ste lozinku",
+          send_reset_link: "Pošalji link za resetovanje",
+          forgot_password_error:
+            "Došlo je do greške prilikom slanja linka za resetovanje lozinke. Molimo pokušajte ponovo.",
+          reset_password: "Resetujte lozinku",
+          new_password: "Nova lozinka",
+          enter_new_password: "Unesite novu lozinku",
+          reset_password_error:
+            "Došlo je do greške prilikom resetovanja lozinke. Molimo pokušajte ponovo.",
+          invalid_or_expired_token:
+            "Nevažeći ili istekao token. Molimo zatražite novi link za resetovanje lozinke.",
+          reset_password_success:
+            "Lozinka je uspješno resetovana, kliknite OK da biste otišli na stranicu za prijavu",
+          // other translations...
         },
       },
     },
