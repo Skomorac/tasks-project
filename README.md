@@ -1,4 +1,6 @@
 RemindME - Task Management Application
+
+
 RemindME is a full-stack task management application developed using React.js and Flask. The project includes features like user authentication, task management, and dynamic content display. The frontend is built with Vite for a modern development experience, and the backend is deployed on a privately built server.
 
 Features
