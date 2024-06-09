@@ -1,8 +1,23 @@
-# React + Vite
+#RemindME - Task Management Application
+RemindME is a full-stack task management application developed using React.js and Flask. The project includes features like user authentication, task management, and dynamic content display. The frontend is built with Vite for a modern development experience, and the backend is deployed on a privately built server.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+#Features
+User Authentication (Login, Signup, Logout)
+Task Management (Add, Edit, Delete, Complete Tasks)
+Multi-language Support (English and Bosnian)
+Responsive Design using React Bootstrap
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+#Technologies Used
+Frontend: React.js, Vite, React Bootstrap
+Backend: Flask, SQLAlchemy
+Database: PostgreSQL
+Deployment: Vercel (Frontend), Private Server (Backend)
+API Integration: custom built API
+
+
+License
+This project is licensed under the MIT License.
+
+Contributors
+This project was developed by Admir Skomorac and is part of the 4Geeks Academy Coding Bootcamp. Find other templates and resources at the school's GitHub page.
