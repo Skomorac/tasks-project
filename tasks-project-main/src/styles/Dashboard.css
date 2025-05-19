@@ -1,0 +1,126 @@
+/* Dashboard.css */
+.main-container-dashboard {
+  padding: 20px;
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  margin-top: 50px;
+  border-radius: 10px;
+}
+
+.main-container-dashboard h1 {
+  text-align: center;
+}
+
+.left-box,
+.right-box {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.right-box h2 {
+  text-align: center;
+}
+
+.delete-all-button {
+  display: flex;
+  justify-content: center;
+}
+
+.edit-delete-container {
+  display: flex;
+  flex-direction: row;
+  padding-left: 2rem;
+}
+
+.edit-delete-container .edit-icon,
+.edit-delete-container .delete-icon {
+  font-size: 1.5em; /* Adjust the size as needed */
+}
+
+.edit-delete-container .edit-icon {
+  color: blue;
+}
+
+.edit-delete-container .delete-icon {
+  color: red;
+  margin-left: 1rem;
+}
+
+.checkbox-task-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.checkbox-task-container button {
+  margin-left: 5rem;
+  margin-top: 1rem;
+}
+
+.checkbox-container {
+  display: flex;
+  justify-content: center;
+}
+
+.checkbox-container input[type="checkbox"] {
+  transform: scale(1.5); /* Adjust the scale factor as needed */
+  -webkit-transform: scale(1.5); /* For Safari */
+  -moz-transform: scale(1.5); /* For Firefox */
+  -ms-transform: scale(1.5); /* For Internet Explorer */
+  -o-transform: scale(1.5); /* For older versions of Opera */
+}
+
+.task-text {
+  margin-left: 2rem;
+}
+
+.completed-task {
+  text-decoration: line-through;
+  color: #6c757d;
+}
+
+.delete-icon,
+.edit-icon {
+  cursor: pointer;
+}
+
+.add-save-task-button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.dropdown-styling-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 4rem;
+}
+
+.dropdown-menu .d-flex {
+  white-space: wrap; /* Prevent text from wrapping */
+}
+
+.edit-icon-dropdown-container {
+  margin-right: 2rem;
+  font-size: x-large;
+}
+
+@media (max-width: 768px) {
+  .dropdown-menu {
+    max-width: 100vw; /* Ensure the dropdown doesn't exceed viewport width */
+    overflow-x: auto; /* Add horizontal scroll if needed */
+  }
+
+  .dropdown-menu .d-flex {
+    white-space: wrap; /* Prevent text from wrapping */
+  }
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+.line-through {
+  text-decoration: line-through;
+}
