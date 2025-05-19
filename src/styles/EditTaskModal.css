@@ -1,0 +1,9 @@
+#modal-container {
+  margin-top: 25rem;
+}
+
+#modal-footer-buttons-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

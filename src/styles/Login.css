@@ -1,0 +1,26 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+.login-container {
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  color: #fff;
+  border-radius: 10px;
+  max-width: 30rem;
+  margin: auto;
+  font-size: 1.5rem;
+  padding: 2rem;
+}
+
+.login-container h1 {
+  margin-bottom: 2rem;
+}
+
+.email-input-field,
+.password-input-field,
+.button-submit {
+  margin-bottom: 1rem;
+}
+
+.login-buttons-container {
+  display: flex;
+  justify-content: space-between;
+}
