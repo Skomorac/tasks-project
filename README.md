@@ -4,7 +4,7 @@ RemindME is a full-stack task management application developed using React.js an
 
 Features
 
-- User Authentication (Login, Signup, Logout) checking Git
+- User Authentication (Login, Signup, Logout)
 - Task Management (Add, Edit, Delete, Complete Tasks)
 - Multi-language Support (English and Bosnian)
 - Responsive Design using React Bootstrap
